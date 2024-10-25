@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  </head>
+<body>
+  <div class="wrapper">
+    <h2>Your QR Code</h2>
+    <!-- QR Code Display -->
+    <div id="qrcode" style="margin-top: 20px;"></div>
+
+    <div class="text">
+      <h3><a href="login.html">Go to Login</a></h3>
+    </div>
+  </div>
+
+  <!-- JavaScript to display the QR code -->
+  <script>
+    window.onload = function() {
+      // Retrieve QR code data from localStorage
+      const qrData = localStorage.getItem("qrData");
+
+      // Generate QR code
+      if (qrData) {
+        const qrcode = new QRCode(document.getElementById("qrcode"), {
+          text: qrData,
+          width: 200,
+          height: 200
+        });
+      }
+    }
+  </script>
+</body>
+</html>

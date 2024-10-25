@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form with QR Code</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  </head>
+<body>
+  <div class="wrapper">
+    <h2>Registration</h2>
+    <form id="registrationForm">
+      <!-- Basic Information -->
+      <div class="input-box">
+        <input type="text" id="name" placeholder="Enter your name" required>
+      </div>
+      <div class="input-box">
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+      <div class="input-box">
+        <input type="password" id="password" placeholder="Create password" required>
+      </div>
+
+      <!-- Medical Information -->
+      <h3>Medical Records</h3>
+      <div class="input-box">
+        <input type="text" id="bloodType" placeholder="Enter your blood type" required>
+      </div>
+      <div class="input-box">
+        <input type="number" id="height" placeholder="Enter your height (in cm)" required>
+      </div>
+      <div class="input-box">
+        <input type="number" id="weight" placeholder="Enter your weight (in kg)" required>
+      </div>
+      <div class="input-box">
+        <input type="text" id="allergies" placeholder="Enter any allergies or conditions" required>
+      </div>
+      <div class="input-box">
+        <input type="text" id="diagnosis" placeholder="Enter any new diagnosis" required>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="input-box button">
+        <input type="submit" value="Register">
+      </div>
+    </form>
+  </div>
+
+  <!-- JavaScript to handle form submission, password hashing, and QR code generation -->
+  <script>
+    // Function to hash the password using SHA-256
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    }
+
+    document.getElementById("registrationForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      // Get user input values
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const bloodType = document.getElementById("bloodType").value;
+      const height = document.getElementById("height").value;
+      const weight = document.getElementById("weight").value;
+      const allergies = document.getElementById("allergies").value;
+      const diagnosis = document.getElementById("diagnosis").value;
+
+      // Hash the entered password
+      const hashedPassword = await hashPassword(password);
+
+      // Store user inputs in localStorage
+      localStorage.setItem("name", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("passwordHash", hashedPassword); // Storing the hashed password
+      localStorage.setItem("bloodType", bloodType);
+      localStorage.setItem("height", height);
+      localStorage.setItem("weight", weight);
+      localStorage.setItem("allergies", allergies);
+      localStorage.setItem("diagnosis", diagnosis);
+
+      // Generate QR code data
+      const qrData = `Name: ${name}\nEmail: ${email}\nBlood Type: ${bloodType}\nHeight: ${height} cm\nWeight: ${weight} kg\nAllergies: ${allergies}\nDiagnosis: ${diagnosis}`;
+
+      // Store QR code data in localStorage
+      localStorage.setItem("qrData", qrData);
+
+      // Redirect to login page (or a page that shows the QR code)
+      window.location.href = "login.html"; 
+    });
+  </script>
+</body>
+</html>

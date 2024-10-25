@@ -1,0 +1,260 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Welcome</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script> <!-- QRCode.js Library -->
+
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <script defer src="script.js"></script> <!-- External JS file to retrieve data -->
+    <!-- QR Code library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body class="is-preload">
+
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="#intro">Welcome</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Intro -->
+    <section id="intro" class="wrapper style1 fullscreen fade-up">
+        <div class="inner">
+            <h1 id="name"></h1>
+            <p>John Doe</p>
+
+            <p>Here are your medical details:</p>
+
+            <!-- Medical Details -->
+            <ul>
+                <li><strong>Blood Type:B+</strong> <span id="bloodType"></span></li>
+                <li><strong>Height:176 cm</strong> <span id="height"></span></li>
+                <li><strong>Weight: 89 kg</strong> <span id="weight"></span></li>
+                <li><strong>Allergies/Conditions: None</strong> <span id="allergies"></span></li>
+                <li><strong>Diagnosis:None</strong> <span id="diagnosis"></span></li>
+            </ul>
+
+            <ul class="actions">
+                <li><a href="QR.html" class="button scrolly">Learn more</a></li>
+            </ul>
+            <ul class="actions">
+              <li><a href="templates\index.html" class="button scrolly">Reports</a></li>
+              
+          </ul>
+
+  <!-- QR Code Section -->
+  <div id="qrcode" style="margin-top: 20px;"></div>
+  <div class="input-box">
+    <form id="dataForm">
+      <input type="text" id="addInput" placeholder="Enter any new data" required>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  
+  <!-- This box will display the submitted data -->
+  <div id="displayBox" style="border: 1px solid #000; padding: 10px; margin-top: 20px;">
+    <h3>Submitted Data:</h3>
+    <div id="submittedData"></div> <!-- To display stored data -->
+  </div>
+  <!DOCTYPE html>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Healthcare Data</title>
+    <style>
+      input {
+        margin-bottom: 10px;
+        padding: 5px;
+        width: 250px;
+      }
+      .editable-row {
+        margin-bottom: 10px;
+      }
+      #displayBox {
+        border: 1px solid #000;
+        padding: 10px;
+        margin-top: 20px;
+      }
+      button {
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+  
+    <div>
+      <form id="dataForm">
+        <input type="text" id="addInput" placeholder="Enter any new data" required>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    
+    <!-- This box will display the submitted data -->
+    <div id="displayBox">
+      <h3>Submitted Data:</h3>
+      <div id="submittedData"></div> <!-- To display stored data -->
+    </div>
+  
+    <script>
+      const form = document.getElementById('dataForm');
+      const input = document.getElementById('addInput');
+      const submittedDataDiv = document.getElementById('submittedData');
+      
+      const tests = [
+        { name: "Hemoglobin (Hb)", value: "13.5 g/dL" },
+        { name: "Activated Clotting Time (ACT)", value: "120 sec" },
+        { name: "White Blood Cell Count (WBC)", value: "7.5 x10^9/L" },
+        { name: "Red Blood Cell Count (RBC)", value: "4.7 x10^12/L" },
+        { name: "Platelet Count", value: "250 x10^9/L" },
+        { name: "Blood Urea Nitrogen (BUN)", value: "18 mg/dL" },
+        { name: "Creatinine", value: "1.0 mg/dL" },
+        { name: "Glucose (Blood Sugar)", value: "95 mg/dL" },
+        { name: "Liver Function Test (LFT)", value: "Normal" },
+        { name: "Alanine Aminotransferase (ALT)", value: "25 U/L" },
+        { name: "Aspartate Aminotransferase (AST)", value: "22 U/L" },
+        { name: "Alkaline Phosphatase (ALP)", value: "70 U/L" },
+        { name: "Electrolytes (Sodium, Potassium, Chloride)", value: "Na: 140 mmol/L, K: 4.0 mmol/L, Cl: 100 mmol/L" },
+        { name: "Total Cholesterol", value: "190 mg/dL" },
+        { name: "High-Density Lipoprotein (HDL)", value: "50 mg/dL" },
+        { name: "Low-Density Lipoprotein (LDL)", value: "120 mg/dL" },
+        { name: "Triglycerides", value: "130 mg/dL" },
+        { name: "Prothrombin Time (PT)", value: "12 seconds" },
+        { name: "Partial Thromboplastin Time (PTT)", value: "32 seconds" },
+        { name: "C-Reactive Protein (CRP)", value: "0.5 mg/L" },
+        { name: "Erythrocyte Sedimentation Rate (ESR)", value: "15 mm/h" },
+        { name: "Thyroid-Stimulating Hormone (TSH)", value: "2.5 µIU/mL" },
+        { name: "Hemoglobin A1C (HbA1c)", value: "5.6%" },
+        { name: "Prostate-Specific Antigen (PSA)", value: "2.0 ng/mL" },
+        { name: "Urinalysis (UA)", value: "Normal" },
+        { name: "Vitamin D (25-hydroxy Vitamin D)", value: "30 ng/mL" },
+        { name: "Calcium (Serum Calcium)", value: "9.5 mg/dL" }
+      ];
+  
+      // Load default rows on page load
+      function loadTests() {
+        tests.forEach(test => addTestRow(test.name, test.value));
+      }
+  
+      // Add a new editable row for the test
+      function addTestRow(testName, testValue) {
+        const rowDiv = document.createElement('div');
+        rowDiv.classList.add('editable-row');
+        
+        const inputName = document.createElement('input');
+        inputName.type = 'text';
+        inputName.value = testName;
+        inputName.classList.add('testInput');
+        inputName.readOnly = true; // Prevent editing the test name
+        
+        const inputValue = document.createElement('input');
+        inputValue.type = 'text';
+        inputValue.value = testValue;
+        inputValue.classList.add('testInput');
+        
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
+        saveButton.onclick = () => {
+          const newValue = inputValue.value;
+          rowDiv.dataset.testValue = newValue;
+          alert('Saved: ' + testName + ' - ' + newValue);
+        };
+  
+        rowDiv.appendChild(inputName);
+        rowDiv.appendChild(inputValue);
+        rowDiv.appendChild(saveButton);
+        submittedDataDiv.appendChild(rowDiv);
+      }
+  
+      // Add new test from form input
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newData = input.value;
+        addTestRow(newData, ''); // Add new row with blank value
+        input.value = '';
+      });
+  
+      // Load default test rows on page load
+      window.onload = loadTests;
+    </script>
+  
+  </body>
+  </html>
+  
+
+
+
+    </section>
+
+    <!-- Footer -->
+    <!-- Add your footer here -->
+
+    <!-- Scripts -->
+    <script>
+        document.getElementById("dataForm").addEventListener("submit", function(event) {
+          event.preventDefault();
+      
+          // Get user input values
+          const add = document.getElementById("addInput").value;
+      
+          if (add) {
+            // Store user input in localStorage
+            localStorage.setItem("add", add);
+      
+            // Display the submitted data in the box
+            const submittedData = document.getElementById("submittedData");
+            submittedData.innerHTML = `<p>${add}</p>`; // Add new submission
+      
+            // Clear the input field for the next entry
+            document.getElementById("addInput").value = '';
+          }
+        });
+      </script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch stored data from localStorage
+            const name = localStorage.getItem("name");
+            const bloodType = localStorage.getItem("bloodType");
+            const height = localStorage.getItem("height");
+            const weight = localStorage.getItem("weight");
+            const allergies = localStorage.getItem("allergies");
+            const diagnosis = localStorage.getItem("diagnosis");
+
+            // Display the fetched data
+            document.getElementById("name").textContent = name;
+            document.getElementById("bloodType").textContent = bloodType;
+            document.getElementById("height").textContent = height + " cm";
+            document.getElementById("weight").textContent = weight + " kg";
+            document.getElementById("allergies").textContent = allergies;
+            document.getElementById("diagnosis").textContent = diagnosis;
+
+            // Generate QR code with user information
+            const qrData = `Name: ${name}\nBlood Type: ${bloodType}\nHeight: ${height} cm\nWeight: ${weight} kg\nAllergies: ${allergies}`;
+            QRCode.toCanvas(document.getElementById('qrcode'), qrData, function (error) {
+                if (error) console.error(error)
+                console.log('QR code generated!')
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCR Image Text Scanner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    h2 {
+      text-align: center;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #000;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Upload an Image for OCR</h2>
+    <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/upload">
+      <label for="imageUpload">Select Image:</label>
+      <input type="file" name="image" id="imageUpload" accept="image/*" required>
+      <br><br>
+      <button type="submit">Scan Image</button>
+    </form>
+
+    <div id="output" class="result" style="display: none;">
+      <h3>Extracted Text:</h3>
+      <pre id="textResult"></pre>
+    </div>
+  </div>
+
+</body>
+</html>

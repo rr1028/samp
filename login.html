@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Login Form </title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+<body>
+  <div class="wrapper">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <!-- name -->
+      <div class="input-box">
+        <input type="text" id="loginname" placeholder="Enter name" required>
+      </div>
+      <!-- Password -->
+      <div class="input-box">
+        <input type="password" id="loginPassword" placeholder="Enter Password" required>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="input-box button">
+        <input type="submit" value="Login">
+      </div>
+
+      <!-- Register Redirect -->
+      <div class="text">
+        <h3>Don't have an account? <a href="reg.html">Register now</a></h3>
+      </div>
+    </form>
+  </div>
+
+  <!-- JavaScript to check login credentials -->
+  <script>
+    // Function to hash the password using SHA-256
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      // Get input values
+      const enteredname = document.getElementById("loginname").value;
+      const enteredPassword = document.getElementById("loginPassword").value;
+
+      // Hash the entered password
+      const hashedEnteredPassword = await hashPassword(enteredPassword);
+
+      // Get stored data from localStorage
+      const storedname = localStorage.getItem("name");
+      const storedPasswordHash = localStorage.getItem("passwordHash");
+
+      // Check if credentials match
+      if (enteredname === storedname && hashedEnteredPassword === storedPasswordHash) {
+        alert("Login successful!");
+        window.location.href = "index.html"; // Redirect to home page
+      } else {
+        alert("Invalid name or password. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
